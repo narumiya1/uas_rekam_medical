@@ -39,14 +39,14 @@ class HomeView extends GetView<HomeController> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      "Devina Qurrota Aini Setiawan",
+                      "Sri Sumarni",
                       style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
                           color: Colors.grey[800]),
                     ),
                     const Text(
-                      "25403043 - MIK-EL41/25 ",
+                      "25403024 - MIK-L41/25",
                       style: TextStyle(fontSize: 11, color: Colors.grey),
                     ),
                   ],

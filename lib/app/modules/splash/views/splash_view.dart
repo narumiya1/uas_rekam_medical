@@ -45,7 +45,7 @@ class SplashView extends GetView<SplashController> {
             const SizedBox(height: 10),
 
             const Text(
-              "Devina Qurrota Aini Setiawan",
+              "Sri Sumarni",
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.white70,
@@ -54,7 +54,7 @@ class SplashView extends GetView<SplashController> {
             const SizedBox(height: 10),
 
             const Text(
-              "25403043 - MIK-EL41/25",
+              "25403024 - MIK-L41/25",
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.white70,
