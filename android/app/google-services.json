@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "605783325921",
+    "firebase_url": "https://pkm-tembelang-1eb0d-default-rtdb.firebaseio.com",
+    "project_id": "pkm-tembelang-1eb0d",
+    "storage_bucket": "pkm-tembelang-1eb0d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605783325921:android:e4dfbded8225dce0f5cba0",
+        "android_client_info": {
+          "package_name": "com.example.uas_medical"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvH32u-gNRlNi7bMiQwzj0RXAud60kf2I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

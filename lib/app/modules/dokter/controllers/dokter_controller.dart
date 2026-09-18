@@ -1,17 +1,41 @@
 import 'package:get/get.dart';
-import 'package:get/get.dart';
 import 'package:uas_medical/helpers/db_helpers.dart';
+import 'package:uas_medical/models/dokter.dart';
+import 'package:uas_medical/services/dokter_service.dart';
 
 class DokterController extends GetxController {
-  var dokterList = [].obs;
-
+  // var dokterList = [].obs;
+  final DokterService _service = DokterService();
+  var dokterList = <Dokter>[].obs;
+  var isLoading = false.obs;
   @override
   void onInit() {
     super.onInit();
-    getDokter();
+    bindStream();
+    // getDokter();
   }
 
-  Future<void> getDokter() async {
+  void bindStream() {
+    isLoading.value = true;
+    _service.streamDokter().listen((data) {
+      dokterList.value = data;
+      isLoading.value = false;
+    });
+  }
+
+  Future<void> tambahDokter(Dokter dokter) async {
+    await _service.tambahDokter(dokter);
+  }
+
+  Future<void> updateDokter(String id, Dokter dokter) async {
+    await _service.updateDokter(id, dokter);
+  }
+
+  Future<void> hapusDokter(String id) async {
+    await _service.hapusDokter(id);
+  }
+
+  /** Future<void> getDokter() async {
     final db = await DatabaseHelper.database;
 
     final data = await db.query('t_dokter');
@@ -42,5 +66,5 @@ class DokterController extends GetxController {
     );
 
     getDokter();
-  }
+  } **/
 }

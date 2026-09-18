@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +18,11 @@ class HomeView extends GetView<HomeController> {
         elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
-        title: Row(
+        title: const Row(
           children: [
-            const Icon(Icons.home, color: primaryColor, size: 28),
-            const SizedBox(width: 8),
-            const Text(
+            Icon(Icons.home, color: primaryColor, size: 28),
+            SizedBox(width: 8),
+            Text(
               "Sistem Rekam Medis",
               style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
             ),
@@ -54,9 +54,17 @@ class HomeView extends GetView<HomeController> {
                 const SizedBox(width: 8),
                 CircleAvatar(
                   radius: 18,
-                  backgroundColor: primaryColor.withOpacity(0.1),
+                  backgroundColor: primaryColor.withValues(alpha: 0.1),
                   child: const Icon(Icons.person_rounded,
                       color: primaryColor, size: 20),
+                ),
+                Divider(),
+                IconButton(
+                  onPressed: controller.showLogoutDialog,
+                  icon: const Icon(
+                    Icons.logout_rounded,
+                    color: Colors.green,
+                  ),
                 ),
               ],
             ),
@@ -81,7 +89,7 @@ class HomeView extends GetView<HomeController> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: primaryColor.withOpacity(0.3),
+                      color: primaryColor.withValues(alpha: 0.3),
                       blurRadius: 12,
                       offset: const Offset(0, 6),
                     )
@@ -128,13 +136,14 @@ class HomeView extends GetView<HomeController> {
               childAspectRatio:
                   1.1, // Membuat ukuran kotak sedikit lebih proporsional
               children: [
+                // BKS Route dan warna disesuaikan dengan tema medis/modern
                 _buildMenuItem(
                     title: "Pasien",
                     icon: Icons.people_alt_rounded,
                     route: "/pasien",
                     color: Colors.blue),
                 _buildMenuItem(
-                    title: "Dokter",
+                    title: "Dokter pkm",
                     icon: Icons.medication_liquid_rounded,
                     route: "/dokter",
                     color: Colors.teal),
@@ -154,7 +163,7 @@ class HomeView extends GetView<HomeController> {
                     route: "/pendaftaran",
                     color: Colors.purple),
                 _buildMenuItem(
-                    title: "Laporan",
+                    title: "Riwayat Pasien",
                     icon: Icons.analytics_rounded,
                     route: "/laporan",
                     color: Colors.indigo),
@@ -178,7 +187,7 @@ class HomeView extends GetView<HomeController> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -188,6 +197,7 @@ class HomeView extends GetView<HomeController> {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
+          // BKS Ketika menu di klik, navigasi ke halaman yang sesuai
           onTap: () => Get.toNamed(route),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -198,7 +208,7 @@ class HomeView extends GetView<HomeController> {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.1),
+                    color: color.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(icon, size: 32, color: color),

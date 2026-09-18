@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uas_medical/app/models/pasien.dart';
 import '../controllers/pasien_controller.dart';
 
 class PasienView extends GetView<PasienController> {
-  const PasienView({Key? key}) : super(key: key);
+  const PasienView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +48,7 @@ class PasienView extends GetView<PasienController> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      // bks inputan data pasien
                       const Text(
                         "Tambah Pasien",
                         style: TextStyle(
@@ -96,12 +98,21 @@ class PasienView extends GetView<PasienController> {
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                           onPressed: () async {
-                            await controller.tambahPasien({
-                              'nama': namaC.text,
-                              'alamat': alamatC.text,
-                              'telepon': teleponC.text,
-                              'tanggal_lahir': tanggalC.text,
-                            });
+                            // await controller.tambahPasien({
+                            //   'nama': namaC.text,
+                            //   'alamat': alamatC.text,
+                            //   'telepon': teleponC.text,
+                            //   'tanggal_lahir': tanggalC.text,
+                            // });
+                            // BKS logika untuk menambahkan pasien ke firebase
+                            final pasien = Pasien(
+                              nama: namaC.text,
+                              alamat: alamatC.text,
+                              telepon: teleponC.text,
+                              tanggalLahir: tanggalC.text,
+                            );
+                            // bks logika untuk menambahkan pasien ke firebase
+                            controller.tambahPasien(pasien);
                             Get.back();
                             Get.snackbar(
                               "Berhasil",
@@ -126,8 +137,9 @@ class PasienView extends GetView<PasienController> {
         child: const Icon(Icons.add, color: Colors.white, size: 28),
       ),
 
-      // Refactored Body List Pasien
+      // BKS Tampilan untk menampilkan data pasien dari firebase
       body: Obx(() {
+        //  Jika data kosong
         if (controller.pasienList.isEmpty) {
           return Center(
             child: Column(
@@ -144,8 +156,19 @@ class PasienView extends GetView<PasienController> {
             ),
           );
         }
+        // BKS menampilkan data dari firebase jika tersedia
+        return Obx(() => ListView.builder(
+              itemCount: controller.pasienList.length,
+              itemBuilder: (context, index) {
+                final p = controller.pasienList[index];
+                return ListTile(
+                  title: Text(p.nama),
+                  subtitle: Text(p.alamat),
+                );
+              },
+            ));
 
-        return ListView.builder(
+        /**  ListView.builder(
           itemCount: controller.pasienList.length,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           itemBuilder: (context, index) {
@@ -162,7 +185,7 @@ class PasienView extends GetView<PasienController> {
                 borderRadius: BorderRadius.circular(14),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
+                    color: Colors.black.withValues(alpha: 0.04),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -179,7 +202,7 @@ class PasienView extends GetView<PasienController> {
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                     leading: CircleAvatar(
                       radius: 22,
-                      backgroundColor: primaryColor.withOpacity(0.1),
+                      backgroundColor: primaryColor.withValues(alpha: 0.1),
                       child: Text(
                         inisial,
                         style: const TextStyle(
@@ -262,6 +285,7 @@ class PasienView extends GetView<PasienController> {
             );
           },
         );
+      **/
       }),
     );
   }
@@ -271,7 +295,8 @@ class PasienView extends GetView<PasienController> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 16, color: Color(0xFF00A896).withOpacity(0.7)),
+        Icon(icon,
+            size: 16, color: const Color(0xFF00A896).withValues(alpha: 0.7)),
         const SizedBox(width: 8),
         Expanded(
           child: RichText(

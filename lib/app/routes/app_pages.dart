@@ -2,10 +2,14 @@ import 'package:get/get.dart';
 
 import '../modules/dokter/bindings/dokter_binding.dart';
 import '../modules/dokter/views/dokter_view.dart';
+import '../modules/halaman_laporan_pkm/bindings/halaman_laporan_pkm_binding.dart';
+import '../modules/halaman_laporan_pkm/views/halaman_laporan_pkm_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/laporan/bindings/laporan_binding.dart';
 import '../modules/laporan/views/laporan_view.dart';
+import '../modules/login/bindings/login_binding.dart';
+import '../modules/login/views/login_view.dart';
 import '../modules/obat/bindings/obat_binding.dart';
 import '../modules/obat/views/obat_view.dart';
 import '../modules/pasien/bindings/pasien_binding.dart';
@@ -64,6 +68,16 @@ class AppPages {
       name: _Paths.LAPORAN,
       page: () => const LaporanView(),
       binding: LaporanBinding(),
+    ),
+    GetPage(
+      name: _Paths.LOGIN,
+      page: () => const LoginView(),
+      binding: LoginBinding(),
+    ),
+    GetPage(
+      name: _Paths.HALAMAN_LAPORAN_PKM,
+      page: () => const HalamanLaporanPkmView(),
+      binding: HalamanLaporanPkmBinding(),
     ),
   ];
 }

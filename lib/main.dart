@@ -1,7 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uas_medical/app/modules/dokter/bindings/dokter_binding.dart';
 import 'package:uas_medical/app/modules/dokter/views/dokter_view.dart';
+import 'package:uas_medical/app/modules/login/bindings/login_binding.dart';
+import 'package:uas_medical/app/modules/login/views/login_view.dart';
 import 'package:uas_medical/app/modules/obat/bindings/obat_binding.dart';
 import 'package:uas_medical/app/modules/obat/views/obat_view.dart';
 import 'package:uas_medical/app/modules/home/bindings/home_binding.dart';
@@ -18,8 +21,18 @@ import 'package:uas_medical/app/modules/splash/bindings/splash_binding.dart';
 import 'package:uas_medical/app/modules/splash/controllers/splash_controller.dart';
 import 'package:uas_medical/app/modules/splash/views/splash_view.dart';
 import 'package:uas_medical/app/routes/app_pages.dart';
+import 'package:uas_medical/app/services/my_pref_service.dart';
+import 'package:uas_medical/firebase_options.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // 1. Daftarkan MyPrefService terlebih dahulu di sini
+  // 2. Gunakan Get.putAsync dan berikan 'await' agar SharedPreferences selesai di-load
+  await Get.putAsync(() => MyPrefService().init(), permanent: true);
+
   Get.put(SplashController(), permanent: true);
 
   runApp(
@@ -34,6 +47,11 @@ void main() async {
         useMaterial3: true,
       ),
       getPages: [
+        GetPage(
+          name: Routes.LOGIN,
+          page: () => const LoginView(),
+          binding: LoginBinding(),
+        ),
         GetPage(
           name: Routes.SPLASH,
           page: () => const SplashView(),

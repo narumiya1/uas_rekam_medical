@@ -37,6 +37,10 @@ dependencies:
   intl: ^0.18.1
   pdf: ^3.10.0
   printing: ^5.10.0
+  shared_preferences: ^2.2.3
+  firebase_core: ^3.6.0
+  firebase_database: ^11.1.4  
+  
 dev_dependencies:
 dependency_overrides:
   pdf_widget_wrapper: 1.0.2

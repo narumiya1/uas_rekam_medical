@@ -11,6 +11,8 @@ abstract class Routes {
   static const POLI = _Paths.POLI;
   static const PENDAFTARAN = _Paths.PENDAFTARAN;
   static const LAPORAN = _Paths.LAPORAN;
+  static const LOGIN = _Paths.LOGIN;
+  static const HALAMAN_LAPORAN_PKM = _Paths.HALAMAN_LAPORAN_PKM;
 }
 
 abstract class _Paths {
@@ -23,4 +25,6 @@ abstract class _Paths {
   static const POLI = '/poli';
   static const PENDAFTARAN = '/pendaftaran';
   static const LAPORAN = '/laporan';
+  static const LOGIN = '/login';
+  static const HALAMAN_LAPORAN_PKM = '/halaman-laporan-pkm';
 }

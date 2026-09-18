@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uas_medical/app/models/pasien.dart';
 
 import '../../controllers/pasien_controller.dart';
 
@@ -22,7 +23,7 @@ class _TambahPasienPageState extends State<TambahPasienPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tambah Pasien"),
+        title: const Text("Tambah Pasien PKM"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -58,13 +59,19 @@ class _TambahPasienPageState extends State<TambahPasienPage> {
             const SizedBox(height: 30),
             ElevatedButton(
               onPressed: () async {
-                await controller.tambahPasien({
-                  'nama': namaC.text,
-                  'alamat': alamatC.text,
-                  'telepon': teleponC.text,
-                  'tanggal_lahir': tanggalC.text,
-                });
-
+                // await controller.tambahPasien({
+                //   'nama': namaC.text,
+                //   'alamat': .text,
+                //   'telepon': teleponC.text,
+                //   'tanggal_lahir': tanggalC.text,
+                // });
+                final pasien = Pasien(
+                  nama: namaC.text,
+                  alamat: alamatC.text,
+                  telepon: teleponC.text,
+                  tanggalLahir: tanggalC.text,
+                );
+                controller.tambahPasien(pasien);
                 Get.back();
               },
               child: const Text("Simpan"),

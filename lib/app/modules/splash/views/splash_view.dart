@@ -5,11 +5,11 @@ import 'package:get/get.dart';
 import '../controllers/splash_controller.dart';
 
 class SplashView extends GetView<SplashController> {
-  const SplashView({Key? key}) : super(key: key);
+  const SplashView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 6, 145, 226),
+      backgroundColor: const Color.fromARGB(255, 6, 145, 226),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-
-import '../controllers/dokter_controller.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:uas_medical/models/dokter.dart';
 
 import '../controllers/dokter_controller.dart';
 
@@ -78,11 +75,17 @@ class DokterView extends GetView<DokterController> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () async {
-                        await controller.tambahDokter({
+                        final dokter = Dokter(
+                          nama: namaC.text,
+                          spesialis: spesialisC.text,
+                          telepon: teleponC.text,
+                        );
+                        controller.tambahDokter(dokter);
+                        /**await controller.tambahDokter({
                           'nama': namaC.text,
                           'spesialis': spesialisC.text,
                           'telepon': teleponC.text,
-                        });
+                        });**/
 
                         Get.back();
                       },
@@ -117,6 +120,13 @@ class DokterView extends GetView<DokterController> {
         return ListView.builder(
           itemCount: controller.dokterList.length,
           itemBuilder: (context, index) {
+            final p = controller.dokterList[index];
+            return ListTile(
+              title: Text(p.nama),
+              subtitle: Text(p.spesialis),
+            );
+          },
+          /**  itemBuilder: (context, index) {
             final data = controller.dokterList[index];
             final String nama = data['nama'] ?? '-';
             final String inisial =
@@ -129,7 +139,7 @@ class DokterView extends GetView<DokterController> {
                 borderRadius: BorderRadius.circular(14),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
+                    color: Colors.black.withValues(alpha: 0.04),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -146,7 +156,7 @@ class DokterView extends GetView<DokterController> {
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                     leading: CircleAvatar(
                       radius: 22,
-                      backgroundColor: primaryColor.withOpacity(0.1),
+                      backgroundColor: primaryColor.withValues(alpha: 0.1),
                       child: Text(
                         inisial,
                         style: const TextStyle(
@@ -241,6 +251,7 @@ class DokterView extends GetView<DokterController> {
               ),
             );
           },
+          **/
         );
       }),
     );
@@ -250,7 +261,8 @@ class DokterView extends GetView<DokterController> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 16, color: Color(0xFF00A896).withOpacity(0.7)),
+        Icon(icon,
+            size: 16, color: const Color(0xFF00A896).withValues(alpha: 0.7)),
         const SizedBox(width: 8),
         Expanded(
           child: RichText(

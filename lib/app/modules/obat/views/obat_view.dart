@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uas_medical/helpers/currency.dart';
+import 'package:uas_medical/models/obat.dart';
 
 import '../controllers/obat_controller.dart';
 
@@ -85,13 +86,22 @@ class ObatView extends GetView<ObatController> {
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: () async {
-                          await controller.tambahObat({
+                          final obat = Obat(
+                            namaObat: namaC.text,
+                            stok: int.parse(stokC.text),
+                            harga: int.parse(
+                              hargaC.text.replaceAll(".", ""),
+                            ),
+                          );
+                          controller.tambahObat(obat);
+
+                          /** await controller.tambahObat({
                             'nama_obat': namaC.text,
                             'stok': int.parse(stokC.text),
                             'harga': int.parse(
                               hargaC.text.replaceAll(".", ""),
                             ),
-                          });
+                          }); **/
 
                           Get.back();
                         },
@@ -130,6 +140,13 @@ class ObatView extends GetView<ObatController> {
           itemCount: controller.obatList.length,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           itemBuilder: (context, index) {
+            final p = controller.obatList[index];
+            return ListTile(
+              title: Text(p.namaObat),
+              subtitle: Text('Stok: ${p.stok}, Harga: ${p.harga}'),
+            );
+          },
+          /**  itemBuilder: (context, index) {
             final data = controller.obatList[index];
             final int stok = data['stok'] ?? 0;
 
@@ -146,7 +163,7 @@ class ObatView extends GetView<ObatController> {
                 borderRadius: BorderRadius.circular(14),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.03),
+                    color: Colors.black.withValues(alpha: 0.03),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -158,7 +175,7 @@ class ObatView extends GetView<ObatController> {
                 leading: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: primaryColor.withOpacity(0.1),
+                    color: primaryColor.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(Icons.medication_rounded,
@@ -227,6 +244,7 @@ class ObatView extends GetView<ObatController> {
               ),
             );
           },
+        **/
         );
       }),
     );

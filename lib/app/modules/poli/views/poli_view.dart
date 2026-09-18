@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uas_medical/models/poli.dart';
 import '../controllers/poli_controller.dart';
 
 class PoliView extends GetView<PoliController> {
@@ -67,9 +68,13 @@ class PoliView extends GetView<PoliController> {
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                           onPressed: () async {
-                            await controller.tambahPoli({
-                              'nama_poli': poliC.text,
-                            });
+                            final pol = Poli(
+                              namaPoli: poliC.text,
+                            );
+                            controller.tambahPoli(pol);
+                            // await controller.tambahPoli({
+                            //   'nama_poli': poliC.text,
+                            // });
                             Get.back();
                           },
                           child: const Text("Simpan"),
@@ -106,6 +111,13 @@ class PoliView extends GetView<PoliController> {
           itemCount: controller.poliList.length,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           itemBuilder: (context, index) {
+            final p = controller.poliList[index];
+            return ListTile(
+              title: Text(p.namaPoli),
+              // subtitle: Text(p.id ?? '-'),
+            );
+          },
+          /**   itemBuilder: (context, index) {
             final data = controller.poliList[index];
 
             return Container(
@@ -115,7 +127,7 @@ class PoliView extends GetView<PoliController> {
                 borderRadius: BorderRadius.circular(14),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.03),
+                    color: Colors.black.withValues(alpha: 0.03),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -127,7 +139,7 @@ class PoliView extends GetView<PoliController> {
                 leading: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Colors.redAccent.withOpacity(0.1),
+                    color: Colors.redAccent.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(Icons.door_sliding_rounded,
@@ -163,6 +175,7 @@ class PoliView extends GetView<PoliController> {
               ),
             );
           },
+     **/
         );
       }),
     );

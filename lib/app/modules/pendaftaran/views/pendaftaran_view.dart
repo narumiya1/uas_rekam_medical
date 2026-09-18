@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uas_medical/models/pendaftaran.dart';
 import '../controllers/pendaftaran_controller.dart';
 
 class PendaftaranView extends GetView<PendaftaranController> {
@@ -27,9 +28,9 @@ class PendaftaranView extends GetView<PendaftaranController> {
         elevation: 4,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         onPressed: () {
-          int? pasienId;
-          int? dokterId;
-          int? poliId;
+          String? pasienId;
+          String? dokterId;
+          String? poliId;
           String? status;
 
           Get.bottomSheet(
@@ -54,11 +55,11 @@ class PendaftaranView extends GetView<PendaftaranController> {
                         const SizedBox(height: 20),
 
                         // Dropdown Pasien
-                        DropdownButtonFormField<int>(
-                          value: pasienId,
+                        DropdownButtonFormField<String>(
+                          initialValue: pasienId,
                           items: controller.pasienList.map((e) {
-                            return DropdownMenuItem<int>(
-                              value: e['id'],
+                            return DropdownMenuItem<String>(
+                              value: e['id'].toString(),
                               child: Text(e['nama']),
                             );
                           }).toList(),
@@ -75,11 +76,11 @@ class PendaftaranView extends GetView<PendaftaranController> {
                         const SizedBox(height: 15),
 
                         // Dropdown Dokter
-                        DropdownButtonFormField<int>(
-                          value: dokterId,
+                        DropdownButtonFormField<String>(
+                          initialValue: dokterId,
                           items: controller.dokterList.map((e) {
-                            return DropdownMenuItem<int>(
-                              value: e['id'],
+                            return DropdownMenuItem<String>(
+                              value: e['id'].toString(),
                               child: Text(e['nama']),
                             );
                           }).toList(),
@@ -96,12 +97,12 @@ class PendaftaranView extends GetView<PendaftaranController> {
                         const SizedBox(height: 15),
 
                         // Dropdown Poli
-                        DropdownButtonFormField<int>(
-                          value: poliId,
+                        DropdownButtonFormField<String>(
+                          initialValue: poliId,
                           items: controller.poliList.map((e) {
-                            return DropdownMenuItem<int>(
-                              value: e['id'],
-                              child: Text(e['nama_poli']),
+                            return DropdownMenuItem<String>(
+                              value: e['id'].toString(),
+                              child: Text(e['namaPoli']),
                             );
                           }).toList(),
                           onChanged: (value) {
@@ -118,8 +119,8 @@ class PendaftaranView extends GetView<PendaftaranController> {
 
                         // Dropdown Status
                         DropdownButtonFormField<String>(
-                          value: status,
-                          items: ['BPJS', 'UMUM']
+                          initialValue: status,
+                          items: ['UMUM']
                               .map((e) => DropdownMenuItem(
                                     value: e,
                                     child: Text(e),
@@ -131,10 +132,52 @@ class PendaftaranView extends GetView<PendaftaranController> {
                             });
                           },
                           decoration: const InputDecoration(
-                            labelText: "Status",
+                            labelText: "Status Layanan",
                             border: OutlineInputBorder(),
                           ),
                         ),
+                        TextField(
+                          controller: controller.diagnosaController,
+                          decoration: const InputDecoration(
+                            labelText: "Diagnosa",
+                          ),
+                        ),
+                        TextField(
+                          controller: controller.biayaController,
+                          decoration: const InputDecoration(
+                            labelText: "Biaya",
+                          ),
+                          keyboardType: TextInputType.number,
+                        ),
+                        SizedBox(height: 15),
+                        Obx(
+                          () => DropdownButtonFormField<String>(
+                            // 🚨 KUNCI 1: Gunakan properti 'value' (bukan initialValue) agar sinkron dengan Obx
+                            value: controller.statusRawat.value,
+                            items: ['Rawat Inap', 'Rawat Jalan']
+                                .map((e) => DropdownMenuItem<String>(
+                                      // 🚨 KUNCI 2: Tambahkan <String> di sini
+                                      value: e,
+                                      child: Text(e),
+                                    ))
+                                .toList(),
+                            onChanged: (String? value) {
+                              // 🚨 KUNCI 3: Hapus total fungsi setState. Cukup update variabel GetX langsung
+                              if (value != null) {
+                                controller.statusRawat.value = value;
+
+                                // Jika Anda butuh variabel lokal 'status' di halaman ini,
+                                // Anda bisa langsung mengisinya tanpa bungkusan setState:
+                                // status = value;
+                              }
+                            },
+                            decoration: const InputDecoration(
+                              labelText: "Status Rawat",
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        ),
+
                         const SizedBox(height: 25),
 
                         SizedBox(
@@ -148,12 +191,39 @@ class PendaftaranView extends GetView<PendaftaranController> {
                                   borderRadius: BorderRadius.circular(10)),
                             ),
                             onPressed: () async {
+                              // final pendaftaran = Pendaftaran(
+                              //   pasienId: pasienId.toString(),
+                              //   dokterId: dokterId.toString(),
+                              //   poliId: poliId.toString(),
+                              //   status: status.toString(),
+                              //   tanggal: DateTime.now().toString(),
+                              // );
+                              // controller.tambahPendaftaran(pendaftaran);
+
+                              if (pasienId == null ||
+                                  dokterId == null ||
+                                  poliId == null ||
+                                  status == null) {
+                                Get.snackbar(
+                                    "Gagal", "Harap lengkapi semua data");
+                                return;
+                              }
                               await controller.tambahPendaftaran({
                                 'pasien_id': pasienId,
                                 'dokter_id': dokterId,
                                 'poli_id': poliId,
                                 'status': status,
-                                'tanggal': DateTime.now().toString(),
+                                'diagnosa': controller.diagnosaController.text,
+                                'biaya_pemeriksaan': int.tryParse(
+                                        controller.biayaController.text) ??
+                                    0,
+                                'tanggal_periksa': DateTime.now()
+                                    .toIso8601String(), // dari date picker
+                                'status_rawat': controller.statusRawat
+                                    .value, // "Rawat Jalan" / "Rawat Inap"
+                                'catatan': controller.catatanController.text,
+                                'tanggal': DateTime.now()
+                                    .toIso8601String(), // <- diubah
                               });
                               Get.back();
                             },
@@ -192,6 +262,13 @@ class PendaftaranView extends GetView<PendaftaranController> {
         return ListView.builder(
           itemCount: controller.pendaftaranList.length,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          /** itemBuilder: (context, index) {
+            final p = controller.pendaftaranList[index];
+            return ListTile(
+              title: Text(p.dokterId),
+              subtitle: Text(p.pasienId),
+            );
+          }, **/
           itemBuilder: (context, index) {
             final data = controller.pendaftaranList[index];
             final String currentStatus = data['status'] ?? 'UMUM';
@@ -211,7 +288,7 @@ class PendaftaranView extends GetView<PendaftaranController> {
                 borderRadius: BorderRadius.circular(14),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.03),
+                    color: Colors.black.withValues(alpha: 0.03),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -227,7 +304,7 @@ class PendaftaranView extends GetView<PendaftaranController> {
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                     leading: CircleAvatar(
                       radius: 20,
-                      backgroundColor: accentColor.withOpacity(0.1),
+                      backgroundColor: accentColor.withValues(alpha: 0.1),
                       child: const Icon(Icons.assignment_ind_rounded,
                           color: accentColor, size: 22),
                     ),
